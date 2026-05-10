@@ -3,28 +3,28 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Ojasvi Shelar — Data Engineer</title>
+<title>Ojasvi Shelar — SAP BW/BW4HANA Data Engineer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
     --col-left: 255px;
-    --accent: #1b4332;
-    --accent-mid: #40916c;
-    --accent-light: #d8f3dc;
+    --accent: #1A3A6B;
+    --accent-mid: #2B6CB0;
+    --accent-light: #dce8f7;
     --bg: #f4f1ec;
-    --sidebar: #1b4332;
-    --sidebar-text: #cde8d9;
-    --sidebar-muted: #7fb99a;
+    --sidebar: #1A3A6B;
+    --sidebar-text: #cdd9f0;
+    --sidebar-muted: #7fa5d0;
     --surface: #ffffff;
     --border: #e0dbd2;
     --text-primary: #1a1814;
     --text-secondary: #4a4540;
     --text-muted: #9b958d;
-    --tag-bg: #edf6f0;
-    --tag-border: #c7e6d0;
-    --tag-text: #1b4332;
+    --tag-bg: #eef3fb;
+    --tag-border: #b8d0ef;
+    --tag-text: #1A3A6B;
     --mono: 'DM Mono', monospace;
     --sans: 'DM Sans', sans-serif;
     --serif: 'Fraunces', serif;
@@ -50,6 +50,38 @@
     animation: fadeIn 0.5s ease both;
   }
 
+  /* ── LANGUAGE TOGGLE ── */
+  .lang-toggle {
+    position: fixed;
+    top: 1.1rem;
+    right: 1.5rem;
+    display: flex;
+    gap: 0;
+    z-index: 100;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    border: 1px solid #b8d0ef;
+  }
+  .lang-btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    padding: 6px 13px;
+    background: var(--surface);
+    color: var(--accent);
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .lang-btn:first-child { border-right: 1px solid #b8d0ef; }
+  .lang-btn.active {
+    background: var(--accent);
+    color: #fff;
+  }
+  .lang-btn:not(.active):hover { background: var(--accent-light); }
+
   /* ── SIDEBAR ── */
   .sidebar {
     width: var(--col-left);
@@ -65,7 +97,7 @@
     width: 96px; height: 96px;
     border-radius: 50%;
     margin: 0 auto 0.7rem;
-    background: #2d6a4f;
+    background: #1e4a8a;
     border: 3px solid rgba(255,255,255,0.15);
     display: flex;
     align-items: center;
@@ -176,9 +208,9 @@
     line-height: 1.75;
     border-left: 2px solid var(--accent-light);
     padding-left: 0.9rem;
-    font-style: italic;
-    font-family: var(--serif);
-    font-weight: 300;
+    font-family: var(--sans);
+    font-weight: 400;
+    font-style: normal;
   }
   .section { display: flex; flex-direction: column; }
   .section-label {
@@ -238,9 +270,18 @@
     content: "–";
     position: absolute;
     left: 0;
-    color: #b7e4c7;
+    color: #b8d0ef;
     font-size: 12px;
     top: 0;
+  }
+  .bullets li strong,
+  .project-desc strong,
+  .summary strong {
+    font-weight: 400;
+    color: var(--text-primary);
+    background: #eef3fb;
+    padding: 1px 4px;
+    border-radius: 3px;
   }
   .exp-divider { height: 1px; background: var(--border); margin: 1.1rem 0; }
 
@@ -273,7 +314,7 @@
     white-space: nowrap;
     flex-shrink: 0;
   }
-  .project-link:hover { background: #b7e4c7; }
+  .project-link:hover { background: #b8d0ef; }
   .project-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.65; margin-bottom: 8px; }
   .tags { display: flex; flex-wrap: wrap; gap: 4px; }
   .tag {
@@ -294,26 +335,9 @@
   .edu-date { font-family: var(--mono); font-size: 10px; color: var(--text-muted); white-space: nowrap; background: #f4f1ec; padding: 2px 7px; border-radius: 3px; flex-shrink: 0; }
   .edu-note { font-size: 11px; color: var(--text-muted); margin-top: 4px; line-height: 1.55; }
 
-  .corner-links {
-    position: fixed;
-    top: 1.25rem;
-    right: 1.5rem;
-    display: flex;
-    gap: 8px;
-    z-index: 100;
-  }
-  .corner-link {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--accent);
-    background: var(--accent-light);
-    border: 1px solid #b7e4c7;
-    border-radius: 4px;
-    padding: 5px 11px;
-    text-decoration: none;
-    transition: background 0.15s;
-  }
-  .corner-link:hover { background: #b7e4c7; }
+  /* transition for language swap */
+  [data-i18n] { transition: opacity 0.15s ease; }
+  .lang-switching [data-i18n] { opacity: 0; }
 
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(14px); }
@@ -322,10 +346,18 @@
   @media (max-width: 660px) {
     .cv-wrap { flex-direction: column; }
     .sidebar { width: 100%; min-width: unset; }
+    .lang-toggle { top: 0.6rem; right: 0.8rem; }
   }
 </style>
 </head>
 <body>
+
+<!-- Language toggle -->
+<div class="lang-toggle">
+  <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+  <button class="lang-btn" id="btn-fr" onclick="setLang('fr')">FR</button>
+</div>
+
 <div class="cv-wrap">
 
   <!-- SIDEBAR -->
@@ -333,90 +365,102 @@
 
     <div class="photo-block">
       <div class="photo-circle">
-        <!--
-          TO ADD YOUR PHOTO:
-          1. Delete the <span class="photo-initials"> line below
-          2. Uncomment the <img> tag
-          3. Replace "photo.jpg" with your image filename
-          4. Place your image in the same folder as this HTML file
-        -->
-      <img src="photo.jpg" alt="Ojasvi Shelar" />
+        <img src="photo.jpg" alt="Ojasvi Shelar" />
       </div>
       <div class="photo-name">Ojasvi Shelar</div>
-      <div class="photo-role">Data Engineer · Pipelines & Analytics</div>
+      <div class="photo-role" data-i18n="photo-role">SAP BW/4HANA Data Engineer</div>
     </div>
 
     <div class="sb-section">
-      <div class="sb-label">Contact</div>
+      <div class="sb-label" data-i18n="label-contact">Contact</div>
       <div class="sb-item"><span class="sb-icon">✉</span><a href="mailto:shelarojasvi@gmail.com">shelarojasvi@gmail.com</a></div>
       <div class="sb-item"><span class="sb-icon">☎</span>(+33) 7 83 12 65 28</div>
       <div class="sb-item"><span class="sb-icon">⌥</span><a href="https://github.com/Ojassv" target="_blank">github.com/Ojassv</a></div>
       <div class="sb-item"><span class="sb-icon">in</span><a href="https://linkedin.com/in/ojasvi-shelar" target="_blank">ojasvi-shelar</a></div>
-      <div class="sb-item"><span class="sb-icon">📍</span>Toulouse, France</div>
+      <div class="sb-item"><span class="sb-icon">📍</span><span data-i18n="location">Toulouse, France</span></div>
     </div>
 
     <div class="sb-section">
-      <div class="sb-label">Skills</div>
+      <div class="sb-label" data-i18n="label-skills">Skills</div>
 
+      <!-- Each group has its own unique data-i18n key -->
       <div class="skill-group-sb">
-        <div class="skill-name-sb">Data engineering</div>
+        <div class="skill-name-sb" data-i18n="skills-expertise">Areas of Expertise</div>
         <div class="skill-pills">
-          <span class="skill-pill">PySpark</span>
-          <span class="skill-pill">Databricks</span>
-          <span class="skill-pill">Delta Live Tables</span>
-          <span class="skill-pill">Unity Catalog</span>
-          <span class="skill-pill">ETL/ELT pipelines</span>
-          <span class="skill-pill">Data governance</span>
-          <span class="skill-pill">SAP HANA</span>
-          <span class="skill-pill">SAP BW</span>
+          <span class="skill-pill">Data Modelling</span>
+          <span class="skill-pill">Data Transformation</span>
+          <span class="skill-pill">ETL Development</span>
+          <span class="skill-pill">Operational Reporting</span>
+          <span class="skill-pill">Data Quality &amp; Optimisation</span>
+          <span class="skill-pill">Requirements Gathering &amp; UAT</span>
+          <span class="skill-pill">Agile Delivery</span>
         </div>
       </div>
 
       <div class="skill-group-sb">
-        <div class="skill-name-sb">Programming</div>
+        <div class="skill-name-sb" data-i18n="skills-sap">SAP Tool Stack</div>
         <div class="skill-pills">
+          <span class="skill-pill">SAP BW/4HANA</span>
+          <span class="skill-pill">Native HANA</span>
+          <span class="skill-pill">SAP HANA Studio</span>
+          <span class="skill-pill">BEx Query Designer</span>
+          <span class="skill-pill">SAP Lumira Designer</span>
+          <span class="skill-pill">WebI</span>
+          <span class="skill-pill">SAP Analytics Cloud</span>
+          <span class="skill-pill">Analysis for Office</span>
+        </div>
+      </div>
+
+      <div class="skill-group-sb">
+        <div class="skill-name-sb" data-i18n="skills-prog">Programming</div>
+        <div class="skill-pills">
+          <span class="skill-pill">SQL</span>
           <span class="skill-pill">Python</span>
-          <span class="skill-pill">SQL (Advanced)</span>
-          <span class="skill-pill">Pandas</span>
+          <span class="skill-pill">ABAP</span>
+          <span class="skill-pill">AMDP</span>
+          <span class="skill-pill">PySpark</span>
+          <span class="skill-pill">pandas</span>
           <span class="skill-pill">NumPy</span>
           <span class="skill-pill">scikit-learn</span>
-        </div>
-      </div>
-
-      <div class="skill-group-sb">
-        <div class="skill-name-sb">Visualization</div>
-        <div class="skill-pills">
-          <span class="skill-pill">Streamlit</span>
-          <span class="skill-pill">Plotly</span>
-          <span class="skill-pill">Databricks SQL / Dashboards</span>
-          <span class="skill-pill">Qlik</span>
-        </div>
-      </div>
-
-      <div class="skill-group-sb">
-        <div class="skill-name-sb">Tools & workflow</div>
-        <div class="skill-pills">
           <span class="skill-pill">Git</span>
-          <span class="skill-pill">Docker</span>
-          <span class="skill-pill">Jenkins</span>
-          <span class="skill-pill">JIRA</span>
-          <span class="skill-pill">ServiceNow</span>
-          <span class="skill-pill">Agile</span>
         </div>
       </div>
+
+      <div class="skill-group-sb">
+        <div class="skill-name-sb" data-i18n="skills-platforms">Modern Data Platforms</div>
+        <div class="skill-pills">
+          <span class="skill-pill">Qlik</span>
+          <span class="skill-pill">Databricks</span>
+          <span class="skill-pill">Delta Live Tables</span>
+          <span class="skill-pill">Snowflake</span>
+          <span class="skill-pill">MySQL</span>
+          <span class="skill-pill">Docker</span>
+        </div>
+      </div>
+
+      <div class="skill-group-sb">
+        <div class="skill-name-sb" data-i18n="skills-aviation">Aviation and Flight Data</div>
+        <div class="skill-pills">
+          <span class="skill-pill">Flight Data Analysis</span>
+          <span class="skill-pill">FDR data decoding &amp; validation</span>
+          <span class="skill-pill">Time-series sensor data processing</span>
+        </div>
+      </div>
+    </div>
+
     <div class="sb-section">
-      <div class="sb-label">Languages</div>
+      <div class="sb-label" data-i18n="label-languages">Languages</div>
       <div class="lang-item">
         <div class="lang-name">English</div>
-        <div class="lang-level">Professional working proficiency</div>
+        <div class="lang-level" data-i18n="lang-en-level">Professional working proficiency</div>
       </div>
       <div class="lang-item">
         <div class="lang-name">French</div>
-        <div class="lang-level">Elementary · actively improving</div>
+        <div class="lang-level" data-i18n="lang-fr-level">Elementary · actively improving</div>
       </div>
       <div class="lang-item">
         <div class="lang-name">Marathi / Hindi</div>
-        <div class="lang-level">Native</div>
+        <div class="lang-level" data-i18n="lang-native-level">Native</div>
       </div>
     </div>
 
@@ -427,27 +471,25 @@
 
     <div class="main-header">
       <div class="main-name">Ojasvi Shelar</div>
-      <div class="main-title">Data Engineer · Pipelines & Analytics</div>
-      <p class="summary">
-        Data Engineer with 3+ years of professional experience across enterprise SAP data infrastructure and aviation flight data systems. Delivered production pipelines and data quality frameworks at Infosys (CMA CGM) and OpenAirlines, and recently completed an Advanced Master's in AI &amp; Business Transformation at ISAE-SUPAERO. Hands-on with Python, SQL, PySpark, and Delta Lake — with domain depth in aerospace and logistics data. Open to full-time opportunities in data-driven industries.
+      <div class="main-title" data-i18n="main-title">Data Engineer · 3+ Years Enterprise Delivery</div>
+      <p class="summary" data-i18n="summary">
+        <strong>SAP BW/4HANA</strong> data engineer with 3 years of production delivery on enterprise-scale data warehouses at <strong>Infosys (CMA CGM)</strong> and hands-on <strong>aviation data engineering</strong> experience at <strong>OpenAirlines</strong>. Advanced Master's in AI &amp; Business Transformation from <strong>ISAE-SUPAERO</strong>, bringing a cross-disciplinary edge across <strong>SAP data platforms</strong>, <strong>aeronautical domain knowledge</strong>, and <strong>applied AI</strong> to data transformation programs.
       </p>
     </div>
 
     <div class="section">
-      <div class="section-label">Work experience</div>
+      <div class="section-label" data-i18n="section-experience">Work experience</div>
 
       <div class="exp-item">
         <div class="exp-top">
-          <div class="exp-title">Flight Data Engineering Intern</div>
-          <div class="exp-date">Jul - Dec 2025</div>
+          <div class="exp-title" data-i18n="oa-title">Flight Data Engineering Intern – Customer Implementation</div>
+          <div class="exp-date" data-i18n="oa-date">Jul – Dec 2025</div>
         </div>
-        <div class="exp-company">OpenAirlines · Toulouse, France</div>
+        <div class="exp-company" data-i18n="oa-company">OpenAirlines · Toulouse, France</div>
         <ul class="bullets">
-          <li>Built AeroAtsu, a modular Python framework for automated FDR data validation across heterogeneous aircraft datasets, covering multiple fleet types and data formats.</li>
-          <li>Detected schema inconsistencies, signal anomalies, and data quality issues prior to ingestion, reducing manual validation effort by 50%.</li>
-          <li>Implemented rule-based validation logic and statistical trend analysis (pandas, NumPy) to enforce data contracts and flag data drift.</li>
-          <li>Developed a Streamlit/Plotly interactive validation app to replace manual data quality sign-off, enabling onboarding validation for Nippon Cargo Airlines and supporting data quality investigations for TAP Air Portugal and Atlas Air.</li>
-          <li>Translated field-level data issues into structured validation rules and functional specifications, working directly with implementation teams across airline onboarding projects.</li>
+          <li data-i18n="oa-b1">Built a modular <strong>Python</strong> validation framework that automated <strong>flight data quality checks</strong> across aircraft datasets prior to ingestion into the fuel efficiency platform <strong>SkyBreathe®</strong>.</li>
+          <li data-i18n="oa-b2">Designed validation rules covering schema compliance, <strong>signal anomaly detection</strong>, and statistical trend analysis (pandas, NumPy) — translating aeronautical domain knowledge <strong>into quality KPIs</strong> tracked across airline datasets.</li>
+          <li data-i18n="oa-b3">Replaced a manual sign-off process with an interactive <strong>dashboard</strong>, reducing review effort by <strong>~50%</strong> — enabling onboarding for <strong>Nippon Cargo Airlines</strong> and supporting data investigations for <strong>TAP Air Portugal</strong> and <strong>Atlas Air</strong>.</li>
         </ul>
       </div>
 
@@ -455,51 +497,51 @@
 
       <div class="exp-item">
         <div class="exp-top">
-          <div class="exp-title">SAP Data Engineer &amp; Analytics Consultant</div>
-          <div class="exp-date">Mar 2021 - Jul 2024</div>
+          <div class="exp-title" data-i18n="inf-title">SAP Data Engineer</div>
+          <div class="exp-date" data-i18n="inf-date">Mar 2021 – Jul 2024</div>
         </div>
-        <div class="exp-company">Infosys · Client: CMA CGM (Global Shipping &amp; Logistics)</div>
-            <ul class="bullets">
-            <li>Maintained and extended 2 production ETL pipelines (Sales Targets and CRM reporting) integrating multi-source data from Oracle, LARA, and CDS views into SAP HANA/BW, processing 50K-1M records daily.</li>
-            <li>Investigated and resolved legacy data quality issues — including master data inconsistencies and transformation logic errors — impacting downstream KPI accuracy in Sales and CRM reporting.</li>
-            <li>Designed multi-stage transformations (cleansing, business rule application, aggregation) across raw, curated, and consumption layers for global logistics reporting.</li>
-            <li>Worked directly with CMA CGM business stakeholders at the Marseille office to define transformation logic and KPI rules from requirements through UAT validation to production sign-off.</li>
-            <li>Managed pipeline scheduling, dependency handling, and failure monitoring to ensure reliable daily data delivery to SAP BO reports, Qlik, and Snowflake.</li>
+        <div class="exp-company" data-i18n="inf-company">Infosys · Client: CMA CGM (Global Shipping &amp; Logistics)</div>
+        <ul class="bullets">
+          <li data-i18n="inf-b1">Delivered end-to-end commercial reporting solutions for CMA CGM on a hybrid <strong>SAP BW/4HANA</strong> and <strong>Native HANA</strong> platform, processing <strong>50–80M records daily</strong>.</li>
+          <li data-i18n="inf-b2">Covered the <strong>data lifecycle:</strong> modelled <strong>InfoProviders</strong> and <strong>ADSOs</strong>, built <strong>ETL</strong> pipelines, <strong>Calculation Views</strong>, CDS Views, ABAP and AMDP routines — delivering a unified reporting layer across SAP and non-SAP sources.</li>
+          <li data-i18n="inf-b3">Optimised <strong>process chain</strong> performance by <strong>~55%</strong> (<strong>11h → 5h</strong>) through parallelisation and transformation restructuring. Reduced <strong>Qlik</strong> extraction time from <strong>~5h to ~2h</strong> by migrating <strong>ADSO</strong>-based models to <strong>Native HANA Calculation Views</strong>.</li>
+          <li data-i18n="inf-b4">Collaborated with business stakeholders — supporting UAT for <strong>25+ reports and dashboards</strong> across <strong>SAP Analytics Cloud</strong>, <strong>Analysis for Office</strong>, and <strong>Qlik</strong> for global commercial sales teams.</li>
+          <li data-i18n="inf-b5">Established daily <strong>data quality monitoring</strong> scripts and conducted root cause investigations to ensure accuracy of <strong>CRM</strong> and sales target reporting.</li>
         </ul>
       </div>
     </div>
 
     <div class="section">
-      <div class="section-label">Projects</div>
+      <div class="section-label" data-i18n="section-projects">Projects</div>
       <div class="project-card">
         <div class="project-top">
+          <!-- No data-i18n — title stays in English for both languages -->
           <div class="project-title">IoT Sensor Data Pipeline — Medallion Architecture on Databricks</div>
           <a href="https://github.com/Ojassv/iot-sensor-pipeline-databricks-project" target="_blank" class="project-link">GitHub ↗</a>
         </div>
-        <p class="project-desc">End-to-end medallion pipeline (Bronze → Silver → Gold) on Databricks using PySpark, Delta Live Tables, and Unity Catalog — enforcing data quality at each layer via DLT native expectations. Implemented rolling z-score anomaly detection via Spark window functions to surface sensor degradation patterns. Delivered AI/BI monitoring dashboard and a 15-check data quality audit framework for full pipeline observability.</p>
+        <p class="project-desc" data-i18n="proj-desc">End-to-end <strong>medallion pipeline</strong> (Bronze → Silver → Gold) on <strong>Databricks</strong> using <strong>PySpark</strong>, <strong>Delta Live Tables</strong>, and Unity Catalog — enforcing data quality at each layer via DLT native expectations. Implemented rolling z-score <strong>anomaly detection</strong> via Spark window functions to surface sensor degradation patterns. Delivered a <strong>KPI monitoring dashboard</strong> and a <strong>15-check data quality audit framework</strong> for full pipeline observability.</p>
         <div class="tags">
           <span class="tag">PySpark</span>
           <span class="tag">Databricks</span>
           <span class="tag">Delta Live Tables</span>
           <span class="tag">Unity Catalog</span>
-          <span class="tag">Apache Spark</span>
-          <span class="tag">Anomaly detection</span>
-          <span class="tag">AI/BI dashboard</span>
+          <span class="tag" data-i18n="tag-anomaly">Anomaly detection</span>
         </div>
       </div>
     </div>
+
     <div class="section">
-      <div class="section-label">Education</div>
+      <div class="section-label" data-i18n="section-education">Education</div>
 
       <div class="edu-item">
         <div class="edu-top">
           <div>
-            <div class="edu-degree">Advanced Master's — AI &amp; Business Transformation</div>
-            <div class="edu-school">ISAE-SUPAERO · Toulouse, France</div>
+            <div class="edu-degree" data-i18n="edu1-degree">Advanced Master's — AI &amp; Business Transformation</div>
+            <div class="edu-school" data-i18n="edu1-school">ISAE-SUPAERO · Toulouse, France</div>
           </div>
-          <div class="edu-date">Sep 2024 - Dec 2025</div>
+          <div class="edu-date" data-i18n="edu1-date">Sep 2024 – Dec 2025</div>
         </div>
-        <div class="edu-note">Data Integration, Machine Learning, Big Data Processing, NLP &amp; LLMs, Reinforcement Learning, Data Governance, Analytics applied to industrial performance optimization.</div>
+        <div class="edu-note" data-i18n="edu1-note">Applied machine learning, cloud data platforms, and AI-driven business transformation — bridging data science with real-world enterprise decision-making.</div>
       </div>
 
       <div class="exp-divider"></div>
@@ -507,10 +549,10 @@
       <div class="edu-item">
         <div class="edu-top">
           <div>
-            <div class="edu-degree">B.E. — Aeronautical Engineering</div>
-            <div class="edu-school">Shivaji University · India</div>
+            <div class="edu-degree" data-i18n="edu2-degree">B.E. — Aeronautical Engineering</div>
+            <div class="edu-school" data-i18n="edu2-school">Shivaji University · India</div>
           </div>
-          <div class="edu-date">2016 - 2020</div>
+          <div class="edu-date" data-i18n="edu2-date">2016 – 2020</div>
         </div>
       </div>
 
@@ -518,6 +560,122 @@
 
   </main>
 </div>
+
+<script>
+const translations = {
+  en: {
+    'page-title':        'Ojasvi Shelar — SAP BW/BW4HANA Data Engineer',
+    'photo-role':        'SAP BW/BW4HANA Data Engineer',
+    'label-contact':     'Contact',
+    'location':          'Toulouse, France',
+    'label-skills':      'Skills',
+    'skills-expertise':  'Areas of Expertise',
+    'skills-sap':        'SAP Tool Stack',
+    'skills-prog':       'Programming',
+    'skills-platforms':  'Modern Data Platforms',
+    'skills-aviation':   'Aviation and Flight Data',
+    'label-languages':   'Languages',
+    'lang-en-level':     'Professional working proficiency',
+    'lang-fr-level':     'Elementary · actively improving',
+    'lang-native-level': 'Native',
+    'main-title':        'Data Engineer · 3+ Years Enterprise Delivery',
+    'summary':           '<strong>SAP BW/4HANA</strong> data engineer with 3 years of production delivery on enterprise-scale data warehouses at <strong>Infosys (CMA CGM)</strong> and hands-on <strong>aviation data engineering</strong> experience at <strong>OpenAirlines</strong>. Advanced Master\'s in AI &amp; Business Transformation from <strong>ISAE-SUPAERO</strong>, bringing a cross-disciplinary edge across <strong>SAP data platforms</strong>, <strong>aeronautical domain knowledge</strong>, and applied AI to data transformation programs.',
+    'section-experience':'Work experience',
+    'oa-title':   'Flight Data Engineering Intern – Customer Implementation',
+    'oa-date':    'Jul – Dec 2025',
+    'oa-company': 'OpenAirlines · Toulouse, France',
+    'oa-b1': 'Built a modular <strong>Python</strong> validation framework that automated <strong>flight data quality checks</strong> across aircraft datasets prior to ingestion into the fuel efficiency platform <strong>SkyBreathe®</strong>.',
+    'oa-b2': 'Designed validation rules covering schema compliance, <strong>signal anomaly detection</strong>, and statistical trend analysis (pandas, NumPy) — translating aeronautical domain knowledge <strong>into quality KPIs</strong> tracked across airline datasets.',
+    'oa-b3': 'Replaced a manual sign-off process with an interactive <strong>dashboard</strong>, reducing review effort by <strong>~50%</strong> — enabling onboarding for <strong>Nippon Cargo Airlines</strong> and supporting data investigations for <strong>TAP Air Portugal</strong> and <strong>Atlas Air</strong>.',
+    'inf-title':   'SAP Data Engineer',
+    'inf-date':    'Mar 2021 – Jul 2024',
+    'inf-company': 'Infosys · Client: CMA CGM (Global Shipping &amp; Logistics)',
+    'inf-b1': 'Delivered end-to-end commercial reporting solutions for CMA CGM on a hybrid <strong>SAP BW/4HANA</strong> and <strong>Native HANA</strong> platform, processing <strong>50–80M records daily</strong>.',
+    'inf-b2': 'Covered the <strong>data lifecycle:</strong> modelled <strong>InfoProviders</strong> and <strong>ADSOs</strong>, built <strong>ETL</strong> pipelines, <strong>Calculation Views</strong>, CDS Views, ABAP and AMDP routines — delivering a unified reporting layer across SAP and non-SAP sources.',
+    'inf-b3': 'Optimised <strong>process chain</strong> performance by <strong>~55%</strong> (<strong>11h → 5h</strong>) through parallelisation and transformation restructuring. Reduced <strong>Qlik</strong> extraction time from <strong>~5h to ~2h</strong> by migrating <strong>ADSO</strong>-based models to <strong>Native HANA Calculation Views</strong>.',
+    'inf-b4': 'Collaborated with business stakeholders — supporting UAT for <strong>25+ reports and dashboards</strong> across <strong>SAP Analytics Cloud</strong>, <strong>Analysis for Office</strong>, and <strong>Qlik</strong> for global commercial sales teams.',
+    'inf-b5': 'Established daily <strong>data quality monitoring</strong> scripts and conducted root cause investigations to ensure accuracy of <strong>CRM</strong> and sales target reporting.',
+    'section-projects':  'Projects',
+    'proj-desc': 'End-to-end <strong>medallion pipeline</strong> (Bronze → Silver → Gold) on <strong>Databricks</strong> using <strong>PySpark</strong>, <strong>Delta Live Tables</strong>, and Unity Catalog — enforcing data quality at each layer via DLT native expectations. Implemented rolling z-score <strong>anomaly detection</strong> via Spark window functions to surface sensor degradation patterns. Delivered a <strong>KPI monitoring dashboard</strong> and a <strong>15-check data quality audit framework</strong> for full pipeline observability.',
+    'tag-anomaly':       'Anomaly detection',
+    'section-education': 'Education',
+    'edu1-degree': 'Advanced Master\'s — AI &amp; Business Transformation',
+    'edu1-school': 'ISAE-SUPAERO · Toulouse, France',
+    'edu1-date':   'Sep 2024 – Dec 2025',
+    'edu1-note':   'Applied machine learning, cloud data platforms, and AI-driven business transformation — bridging data science with real-world enterprise decision-making.',
+    'edu2-degree': 'B.E. — Aeronautical Engineering',
+    'edu2-school': 'Shivaji University · India',
+    'edu2-date':   '2016 – 2020',
+  },
+  fr: {
+    'page-title':        'Ojasvi Shelar — Ingénieure Données SAP BW/BW4HANA',
+    'photo-role':        'Ingénieure Données SAP BW/BW4HANA',
+    'label-contact':     'Contact',
+    'location':          'Toulouse, France',
+    'label-skills':      'Compétences',
+    'skills-expertise':  'Domaines d\'Expertise',
+    'skills-sap':        'Outils SAP',
+    'skills-prog':       'Programmation',
+    'skills-platforms':  'Plateformes de Données',
+    'skills-aviation':   'Données de Vol & Aviation',
+    'label-languages':   'Langues',
+    'lang-en-level':     'Maîtrise professionnelle',
+    'lang-fr-level':     'Élémentaire · en progression',
+    'lang-native-level': 'Langue maternelle',
+    'main-title':        'Ingénieure Données · 3+ Ans de Livraison en Production',
+    'summary':           'Ingénieure <strong>SAP BW/4HANA</strong> avec 3 ans d\'expérience en production sur des entrepôts de données à l\'échelle entreprise chez <strong>Infosys (CMA CGM)</strong> et une expérience pratique en <strong>ingénierie des données aéronautiques</strong> chez <strong>OpenAirlines</strong>. Titulaire d\'un Mastère Spécialisé en IA &amp; Transformation des Entreprises de l\'<strong>ISAE-SUPAERO</strong>, apportant une expertise transversale en <strong>plateformes de données SAP</strong>, <strong>connaissance du domaine aéronautique</strong> et IA appliquée aux programmes de transformation des données.',
+    'section-experience':'Expérience Professionnelle',
+    'oa-title':   'Stagiaire Ingénieure Données de Vol – Implémentation Client',
+    'oa-date':    'Juil. – Déc. 2025',
+    'oa-company': 'OpenAirlines · Toulouse, France',
+    'oa-b1': 'Développé un framework de validation <strong>Python</strong> modulaire automatisant les <strong>contrôles de qualité des données de vol</strong> sur les jeux de données aéronefs avant leur intégration dans la plateforme d\'efficacité carburant <strong>SkyBreathe®</strong>.',
+    'oa-b2': 'Conçu des règles de validation couvrant la conformité au schéma, la <strong>détection d\'anomalies de signal</strong> et l\'analyse de tendances statistiques (pandas, NumPy) — traduisant la connaissance du domaine aéronautique <strong>en KPIs de qualité</strong> suivis sur les jeux de données des compagnies aériennes.',
+    'oa-b3': 'Remplacé un processus de validation manuelle par un <strong>tableau de bord</strong> interactif, réduisant les efforts de révision de <strong>~50%</strong> — facilitant l\'intégration de <strong>Nippon Cargo Airlines</strong> et soutenant les investigations de données pour <strong>TAP Air Portugal</strong> et <strong>Atlas Air</strong>.',
+    'inf-title':   'Ingénieure Données SAP BW/4HANA',
+    'inf-date':    'Mar. 2021 – Juil. 2024',
+    'inf-company': 'Infosys · Client : CMA CGM (Transport Maritime &amp; Logistique Mondiale)',
+    'inf-b1': 'Livré des solutions de reporting commercial de bout en bout pour CMA CGM sur une plateforme hybride <strong>SAP BW/4HANA</strong> et <strong>HANA Natif</strong>, traitant <strong>50–80 millions d\'enregistrements quotidiennement</strong>.',
+    'inf-b2': 'Couvert le <strong>cycle de vie des données :</strong> modélisation des <strong>InfoProviders</strong> et des <strong>ADSO</strong>, construction de pipelines <strong>ETL</strong>, <strong>Calculation Views</strong>, CDS Views, routines ABAP et AMDP — livrant une couche de reporting unifiée à partir de sources SAP et non-SAP.',
+    'inf-b3': 'Optimisé les performances de la <strong>chaîne de traitement</strong> de <strong>~55%</strong> (<strong>11h → 5h</strong>) grâce à la parallélisation et à la restructuration des transformations. Réduit le temps d\'extraction <strong>Qlik</strong> de <strong>~5h à ~2h</strong> en migrant les modèles <strong>ADSO</strong> vers des <strong>Calculation Views HANA Natif</strong>.',
+    'inf-b4': 'Collaboré avec les parties prenantes métier — soutenant l\'UAT pour <strong>plus de 25 rapports et tableaux de bord</strong> via <strong>SAP Analytics Cloud</strong>, <strong>Analysis for Office</strong> et <strong>Qlik</strong> pour les équipes commerciales mondiales.',
+    'inf-b5': 'Mis en place des scripts de <strong>surveillance quotidienne de la qualité des données</strong> et mené des investigations de cause racine pour garantir l\'exactitude des rapports <strong>CRM</strong> et des objectifs de vente.',
+    'section-projects':  'Projets',
+    'proj-desc': 'Pipeline <strong>medallion</strong> de bout en bout (Bronze → Silver → Gold) sur <strong>Databricks</strong> avec <strong>PySpark</strong>, <strong>Delta Live Tables</strong> et Unity Catalog — contrôles de qualité appliqués à chaque couche via les attentes natives DLT. Mise en œuvre d\'une <strong>détection d\'anomalies</strong> par z-score glissant via des fonctions de fenêtrage Spark. Livraison d\'un <strong>tableau de bord de suivi des KPIs</strong> et d\'un <strong>cadre d\'audit qualité en 15 points</strong> pour l\'observabilité complète du pipeline.',
+    'tag-anomaly':       'Détection d\'anomalies',
+    'section-education': 'Formation',
+    'edu1-degree': 'Mastère Spécialisé — IA &amp; Transformation des Entreprises',
+    'edu1-school': 'ISAE-SUPAERO · Toulouse, France',
+    'edu1-date':   'Sep. 2024 – Déc. 2025',
+    'edu1-note':   'Machine learning appliqué, plateformes de données cloud et transformation des entreprises par l\'IA — à l\'interface entre la data science et la prise de décision en entreprise.',
+    'edu2-degree': 'B.E. — Génie Aéronautique',
+    'edu2-school': 'Université Shivaji · Inde',
+    'edu2-date':   '2016 – 2020',
+  }
+};
+
+function setLang(lang) {
+  document.body.classList.add('lang-switching');
+  setTimeout(() => {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (translations[lang] && translations[lang][key] !== undefined) {
+        el.innerHTML = translations[lang][key];
+      }
+    });
+    document.title = translations[lang]['page-title'];
+    document.documentElement.lang = lang;
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
+    document.body.classList.remove('lang-switching');
+  }, 150);
+}
+
+// On page load: check ?lang= URL parameter
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('lang') === 'fr') setLang('fr');
+})();
+</script>
 
 </body>
 </html>
